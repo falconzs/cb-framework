@@ -1,0 +1,40 @@
+{
+  "name": "falconzs/cb-framework",
+  "version": "1.0.0",
+  "description": "Chaturbate framework for creating bots and apps. This code is not officially supported or affiliated with chaturbate.com.",
+  "keywords": [
+    "chaturbate",
+    "framework",
+    "app",
+    "bot"
+  ],
+  "homepage": "https://github.com/falconzs/cb-framework/",
+  "bugs": "https://github.com/falconzs/cb-framework/issues",
+  "license": "MIT",
+  "author": {
+    "name": "falconzs",
+    "url": "https://github.com/falconzs"
+  },
+  "contributors": [],
+  "main": "cbframework",
+  "files": [
+    "src"
+  ],
+  "directory.lib": "src",
+  "director.example": "examples",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/falconzs/cbframework.git"
+  },
+  "dependencies": {
+    "define-class": "*"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-webpack": "^1.0.11",
+    "unit.js": ">=2.0.0"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}
