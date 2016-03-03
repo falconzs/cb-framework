@@ -16,10 +16,7 @@
     "url": "https://github.com/falconzs"
   },
   "contributors": [],
-  "main": "cbframework",
-  "files": [
-    "src"
-  ],
+  "main": "src/index.js",
   "directory.lib": "src",
   "director.example": "examples",
   "repository": {
