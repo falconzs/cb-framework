@@ -1,5 +1,5 @@
 
-var DefineClass = require('DefineClass'),
+var DefineClass = require('define-class'),
     collection = DefineClass({
         init: function(indexBy, unique) {
             if (indexBy.constructor != 'Array') {
