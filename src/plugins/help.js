@@ -63,7 +63,7 @@ var DefineClass = require('define-class'),
             });
         },
 
-        displayHelp: function(command, user) {
+        displayHelp: function(user, command) {
             var index,
                 description,
                 output = [],
