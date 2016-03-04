@@ -25,6 +25,10 @@ var callPlugins = function(method, args) {
                 continue;
             }
 
+            if (command.access && !user.hasPermission(command.access)) {
+                this.api.sendNotice('You don\'t have permission to that command.', user.name);
+                return;
+            }
             var params = [];
             if (command.params) {
                 params = message.getCommandParameters(command.params);
