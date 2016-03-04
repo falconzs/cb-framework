@@ -21,7 +21,7 @@
   "director.example": "examples",
   "repository": {
     "type": "git",
-    "url": "https://github.com/falconzs/cbframework.git"
+    "url": "https://github.com/falconzs/cb-framework.git"
   },
   "dependencies": {
     "define-class": "*"
