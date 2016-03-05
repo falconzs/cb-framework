@@ -1,6 +1,6 @@
 {
   "name": "cb-framework",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Chaturbate framework for creating bots and apps. This code is not officially supported or affiliated with chaturbate.com.",
   "keywords": [
     "chaturbate",
@@ -24,7 +24,7 @@
     "url": "https://github.com/falconzs/cb-framework.git"
   },
   "dependencies": {
-    "define-class": "*"
+    "define-class": ">=0.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
