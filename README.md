@@ -3,12 +3,6 @@
 Disclaimer
 > This code is not officially supported by or affiliated with chaturbate.com.
 
-## Requirements
-
-* Node/NPM installed (Docker alternative available)
-* Intermediate level of Javascript
-* Knowledge of CB App/Bot development
-
 ## Goals
 
 * Reduce boilerplate code
@@ -19,6 +13,9 @@ Disclaimer
 * Code structure
 * Issue tracking
 * Collaboration
+
+## Status
+This and the associated repos are a work in progress and subject to change.
 
 ## Terminology / Structure
 CB has Bots or Apps which add functionality to a broadcasters rooms. Broadcasters can add 1 App and upto 3 Bots.
@@ -31,40 +28,7 @@ about creating a bot are below.
 
 ## Getting Started
 
-The examples directory provides an example of a plugin which can be copied and pasted.
-
-### Creating a App
-
-1. Todo
-
-### Creating a Bot
-
-1. Clone / download the bot skeleton from XXX
-2. Search for plugins on [npmjs.com](https://www.npmjs.com/) using the tags ```chaturbate```, ```plugin``` and ```bot```.
-3. Add the plugins as ```dependencies``` in the ```package.json```.
-4. Add the ```register``` line in ```index.js``` for each plugin.
-5. ```npm install```
-6. ```grunt webpack```
-7. Copy the contents of `bundle.js` to CB and test your new Bot
-
-### Creating a Plugin
-
-1. Todo
-
-
-## Included Plugins
-
-### Help Plugin
-This is created and added to any App or Bot automatically. 
-This plugin:
-* looks at each registered plugin for available commands.
-* provides a full help listing based on the requesting users permissions.
-
-### Timer Plugin
-Allows different timers to be added to a room.
-
-### Cleaner Plugin
-Allows a chat to be cleaned up by outputting a cleanup message.
+[https://github.com/falconzs/cb-dev-templates](https://github.com/falconzs/cb-dev-templates)
 
 ## API
 
@@ -75,44 +39,67 @@ Allows a chat to be cleaned up by outputting a cleanup message.
 ### Plugin Abstract Class
 
 ### Message Class
+A class representing the message.
+
+Statics
+* `create`
+* `createFromTip`
+
+Methods
+* `isEmpty`
+* `contains`
+* `isCommand`
+* `getCommand`
+* `getCommandParameters`
+* `isHidden`
+* `hide`
+* `show`
+* `getUser`
+* `getResponse`
 
 ### User Class
+A class representing a user. Brings together the standard attributes in a semantically consistent object. Also includes
+useful methods for standard development.
+
+Statics
+* `create`
+* `createFromMessage`
+* `createFromTip`
+* `createFromUsername`
+
+Methods
+* `silence`
+* `unsilence`
+* `canTalk`
+* `hasPermission`
+* `getRole`
+* `addRole`
+* `removeRole`
 
 ### Collection Class
+Provides a class for working with collections of objects. Adds the ability to index certain fields.
+
 
 ### Library Object
-coming soon
+This combines the `cbjs` functions with other common functions and often used constants.
 
-## Docker
+#### Functions
+* `strCapitalize(string string):string` capitalises the first character of each word.
+* `strRepeat(string string, int quantity):string` repeats the string for the number of times specified.
+* `strEquals(string string, string compare, bool caseSensitive):bool` compares two strings.
+* `strIsValidColor(string code):bool` checks whether the given string a valid hex color.
+* `arrayContains(array array, object object):bool` checks if the specifed array contains the object.
+* `arrayRemove(array array, object object):array` removes all entries of object and returns the new array.
 
-Warning: mileage may vary, provided as is, for convenience.
+#### Colors
+Provides an object map of color name to color hex. A nicer way of specifying colors that's more readable.
 
-``` bash
-docker build -t nodejs .
-```
+#### Special Characters
+Provides an object map of special characters. For example a ▶ character. A nicer way of specifying characters that's 
+more readable in code.
 
-To get access to the Node environment (docker run):
-``` bash
-./docker-run.sh
-```
-
-package.json
-``` javascript
-{
-  "name": "MyBotPlugin",
-  dependcies:{
-    "falconzs/cbframework": "^1.0.0"
-  }
-}
-```
-
-
-Motivations
-Goals
-Minimum Requirements
-Terminology / Structure
-How to create
-	Bot
-	App
-	Plugin
-Dependencies
+### Help Plugin
+This is created and added to any App or Bot automatically. 
+This plugin:
+* looks at each registered plugin for available commands.
+* provides a full help listing based on the requesting users permissions.
