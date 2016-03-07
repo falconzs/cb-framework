@@ -28,8 +28,7 @@
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-webpack": "^1.0.11",
-    "unit.js": ">=2.0.0"
+    "grunt-webpack": "^1.0.11"
   },
   "scripts": {
     "start": "node src/index.js"
