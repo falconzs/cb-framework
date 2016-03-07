@@ -18,13 +18,14 @@ Disclaimer
 This and the associated repos are a work in progress and subject to change.
 
 ## Terminology / Structure
-CB has Bots or Apps which add functionality to a broadcasters rooms. Broadcasters can add 1 App and upto 3 Bots.
+The framework provides components to create Apps and Bots, removing common boiler plate code and increasing the speed 
+and reliability of development.
 
-The framework provides components to create Apps and Bots, removing the boiler plate code required.
+Within the framework there is a bot onto which functionality can be added through plugins. Plugins can be contributed 
+by other coders and discoverable using the tags 'chaturbate', 'bot' and 'plugin'. Full details about creating a bot 
+and plugins are below.
 
-Within the framework there is a bot onto which functionality can be added through plugins. Plugins are expected to 
-to be contributed by other coders and discoverable using the tags 'chaturbate', 'bot' and 'plugin'. Full details 
-about creating a bot are below.
+More to come about Apps.
 
 ## Getting Started
 
