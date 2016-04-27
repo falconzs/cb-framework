@@ -24,7 +24,6 @@
     "url": "https://github.com/falconzs/cb-framework.git"
   },
   "dependencies": {
-    "define-class": ">=0.0.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
