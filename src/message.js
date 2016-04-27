@@ -1,3 +1,4 @@
+"use strict";
 
 var splitCommand = function(message) {
     if (message.indexOf(' ') == -1) {
@@ -9,68 +10,70 @@ var splitCommand = function(message) {
     return [command, params];
 };
 
-function CbMessage(message, user, response) {
-    this.message  = message;
-    this.user     = user;
-    this.response = response;
-    this.command  = null;
-    this.parsed   = null;
-};
-
-CbMessage.create = function(source, cbMessage) {
-    return new CbMessage('', '', cbMessage);
-};
-
-CbMessage.createFromTip = function(data, user) {
-    return new CbMessage(data.message, user);
-};
-
-CbMessage.prototype.isEmpty = function() {
-    return this.message == '';
-};
-
-CbMessage.prototype.contains = function() {
-};
-
-CbMessage.prototype.isCommand = function() {
-    return this.message[0] == '/';
-};
-
-CbMessage.prototype.getCommand = function() {
-    if (this.command === null) {
-        this.command = splitCommand(this.message)[0];
+class Message {
+    constructor(message, user, response) {
+        super();
+        this.message  = message.trim();
+        this.user     = user;
+        this.response = response;
+        this.command  = null;
+        this.parsed   = null;
     }
-    return this.command;
-};
 
-CbMessage.prototype.getCommandParameters = function(pattern) {
-    if (this.parsed === null) {
-        var paramStr = splitCommand(this.message)[1];
-        this.parsed = paramStr;
+    static create(source, cbMessage) {
+        return new CbMessage('', '', cbMessage);
     }
-    return this.parsed;
-};
 
-CbMessage.prototype.isHidden = function() {
-    return this.response['X-Spam'] === true;
-};
-
-CbMessage.prototype.hide = function() {
-    this.response['X-Spam'] = true;
-};
-
-CbMessage.prototype.show = function() {
-    if (this.response.hasOwnProperty('X-Spam')) {
-        delete this.response['X-Spam'];
+    static createFromTip(data, user) {
+        return new Message(data.message, user);
     }
-};
 
-CbMessage.prototype.getUser = function () {
-    return this.user;
-};
+    isEmpty() {
+        return this.message == '';
+    }
 
-CbMessage.prototype.getResponse = function () {
-    return this.response;
-};
+    isCommand() {
+        return this.message.charAt(0) === '/';
+    }
 
-module.exports = CbMessage;
+    getCommand() {
+        if (this.command === null) {
+            this.command = splitCommand(this.message)[0];
+        }
+        return this.command;
+    }
+
+    getCommandParameters(pattern) {
+        if (this.parsed === null) {
+            var paramStr = splitCommand(this.message)[1];
+            this.parsed = paramStr;
+        }
+        return this.parsed;
+    }
+
+    isHidden() {
+        return this.response['X-Spam'] === true;
+    }
+
+    hide() {
+        this.response['X-Spam'] = true;
+        return this;
+    }
+
+    show() {
+        if (this.response.hasOwnProperty('X-Spam')) {
+            delete this.response['X-Spam'];
+        }
+        return this;
+    }
+
+    getUser() {
+        return this.user;
+    }
+
+    getResponse() {
+        return this.response;
+    }
+}
+
+module.exports = Message;
