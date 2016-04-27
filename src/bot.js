@@ -1,7 +1,8 @@
+"use strict";
 
 var HelpPlugin = require('./plugins/help'),
-    CbUser     = require('./user'),
-    CbMessage  = require('./message');
+    User       = require('./user'),
+    Message    = require('./message');
 
 // private functions
 var callPlugins = function(method, args) {
@@ -55,74 +56,71 @@ var callPlugins = function(method, args) {
         return settings;
     };
 
-function CbBot(api, library) {
-    this.api     = api;
-    this.library = library;
-    this.help    = new HelpPlugin();
+class Bot {
+    constructor(api) {
+        this.api = api;
+        this.help = new HelpPlugin();
+        this.plugins = [];
+        this.register(this.help);
+    }
 
-    this.plugins = [];
-    this.register(this.help);
+    run() {
+        this.help.discover(this.plugins);
+        this.api.settings_choices = compileConfig.call(this);
+
+        this.api.onEnter(this.onEnter.bind(this));
+        this.api.onMessage(this.onMessage.bind(this));
+        this.api.onTip(this.onTip.bind(this));
+        this.api.onLeave(this.onLeave.bind(this));
+
+        // kick off
+        this.onStart();
+    }
+
+    register(plugin) {
+        if (typeof plugin['setDependencies'] == 'function') {
+            plugin.setDependencies(this.api);
+        }
+        this.plugins.push(plugin);
+        return this;
+    }
+
+    onStart() {
+        // let the host know we're good to go
+        // @todo output some pretty message
+        var user = User.createFromUsername(this.api.room_slug, this.api.room_slug);
+        callPlugins.call(this, 'onStart', [user]);
+    }
+
+    onEnter(cbUser) {
+        var user = User.create(cbUser);
+        callPlugins.call(this, 'onEnter', [user]);
+    }
+
+    onMessage(cbMessage) {
+        var user = User.createFromMessage(cbMessage, this.api.room_slug),
+            message = new Message(cbMessage.m, user, cbMessage);
+        if (message.isCommand()) {
+            message.hide();
+            callCommand.call(this, user, message)
+        } else {
+            callPlugins.call(this, 'onMessage', [user, message]);
+        }
+
+        return cbMessage;
+    }
+
+    onTip(cbTip) {
+        var from    = User.createFromTip(cbTip, this.api.room_slug),
+            to      = User.createFromUsername(cbTip.to_user, this.api.room_slug),
+            message = Message.createFromTip(cbTip, from);
+        callPlugins.call(this, 'onTip', [from, to, cbTip.amount, message]);
+    }
+
+    onLeave(cbUser) {
+        var user = User.create(cbUser);
+        callPlugins.call(this, 'onLeave', [user]);
+    }
 }
 
-CbBot.prototype.run = function() {
-    // init help commands
-    this.help.discover(this.plugins);
-    // compile settings
-    this.api.settings_choices = compileConfig.call(this);
-
-    // hook in
-    this.api.onEnter(this.onEnter.bind(this));
-    this.api.onMessage(this.onMessage.bind(this));
-    this.api.onTip(this.onTip.bind(this));
-    this.api.onLeave(this.onLeave.bind(this));
-
-    // kick off
-    this.onStart();
-};
-
-CbBot.prototype.register = function(plugin) {
-    if (typeof plugin['setDependencies'] == 'function') {
-        plugin.setDependencies(this.api, this.library);
-    }
-    this.plugins.push(plugin);
-    return this;
-};
-
-CbBot.prototype.onStart = function() {
-    // let the host know we're good to go
-    // @todo output some pretty message
-    var user = CbUser.createFromUsername(this.api.room_slug, this.api.room_slug);
-    callPlugins.call(this, 'onStart', [user]);
-};
-
-CbBot.prototype.onEnter = function(cbUser) {
-    var user = CbUser.create(cbUser);
-    callPlugins.call(this, 'onEnter', [user]);
-};
-
-CbBot.prototype.onMessage = function(cbMessage) {
-    var user = CbUser.createFromMessage(cbMessage, this.api.room_slug),
-        message = new CbMessage(cbMessage.m, user, cbMessage);
-    if (message.isCommand()) {
-        message.hide();
-        callCommand.call(this, user, message)
-    } else {
-        callPlugins.call(this, 'onMessage', [user, message]);
-    }
-
-    return cbMessage;
-};
-
-CbBot.prototype.onTip = function(cbTip) {
-    var from    = CbUser.createFromTip(cbTip, this.api.room_slug),
-        to      = CbUser.createFromUsername(cbTip.to_user, this.api.room_slug),
-        message = CbMessage.createFromTip(cbTip, from);
-    callPlugins.call(this, 'onTip', [from, to, cbTip.amount, message]);
-};
-
-CbBot.prototype.onLeave = function(cbUser) {
-    var user = CbUser.create(cbUser);
-    callPlugins.call(this, 'onLeave', [user]);
-};
-
-module.exports = CbBot;
+module.exports = Bot;
