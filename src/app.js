@@ -1,20 +1,44 @@
+"use strict";
 
-var CbBot = require('./bot'),
-    CbApp = function(api, library) {
-        CbBot.call(this, api, library);
-    };
+var HelpPlugin = require('./plugins/help'),
+    EventProxy = require('./event-proxy');
 
-CbApp.prototype = Object.create(CbBot.prototype);
-CbApp.prototype.constructor = CbApp;
-CbApp.prototype.parent = CbBot.prototype;
+class App {
+    constructor(api) {
+        this.api = api;
+        this.help = new HelpPlugin();
 
-CbApp.prototype.run = function() {
-    this.api.onDrawPanel(this.onDrawPanel.bind(this));
-    this.parent.run.call(this);
-};
+        this.commands = {};
+    }
 
-CbApp.prototype.onDrawPanel = function() {
-    console.log(onDrawPanel);
-};
+    satisfies(command) {
+        if (!this.commands) {
+            return false;
+        }
+        var index, request;
+        for (index in this.commands) {
+            if (index == command) {
+                return this.commands[index];
+            }
+        }
+        return false;
+    }
 
-module.exports = CbApp;
+    run() {
+        this.help.discover(this);
+        this.api.settings_choices = compileConfig.call(this);
+
+        var methods = ['onEnter', 'onMessage', 'onTip', 'onLeave', 'onDrawPanel'],
+            eventPoxy = new EventProxy(this.api);
+        eventPoxy.initialise(methods, this);
+
+        if (typeof this.onCommand == 'function') {
+            eventPoxy.redirectCommand(this.onCommand);
+        }
+    }
+
+    onCommand(user, message) {
+    }
+}
+
+module.exports = App;
