@@ -12,7 +12,6 @@ var splitCommand = function(message) {
 
 class Message {
     constructor(message, user, response) {
-        super();
         this.message  = message.trim();
         this.user     = user;
         this.response = response;
