@@ -1,28 +1,53 @@
+"use strict";
 
-//var console = console || { log: function() {} };
-function cbDummy() {
-    this.fns = {};
-};
-
-cbDummy.prototype.onEnter = function(fn) { this.fns.enter = fn; };
-cbDummy.prototype.onMessage = function(fn) { this.fns.message = fn; };
-cbDummy.prototype.onTip = function(fn) { this.fns.tip = fn; };
-cbDummy.prototype.onDrawPanel = function(fn) { this.fns.drawpanel = fn; };
-cbDummy.prototype.onLeave = function(fn) { this.fns.leave = fn; };
-cbDummy.prototype.log = function(message) { console.log(arguments.callee, arguments); };
-cbDummy.prototype.sendNotice = function() {
-    console.log('sendNotice', arguments);
-};
-
-cbDummy.prototype.emit = function(event, args) {
-    if (!this.fns.hasOwnProperty(event)) {
-        return;
+class CbDummy {
+    constructor() {
+        this.fns = {};
     }
-    //console.log
-    return this.fns[event].apply(this.fns[event], args);
-};
 
-var dummy = new cbDummy();
+    onEnter(fn) {
+        console.log('onEnter registered');
+        this.fns.enter = fn;
+    }
+
+    onMessage(fn) {
+        console.log('onMessage registered');
+        this.fns.message = fn;
+    }
+
+    onTip(fn) {
+        console.log('onTip registered');
+        this.fns.tip = fn;
+    }
+
+    onDrawPanel(fn) {
+        console.log('onDrawPanel registered');
+        this.fns.drawpanel = fn;
+    }
+
+    onLeave(fn) {
+        console.log('onLeave registered');
+        this.fns.leave = fn;
+    }
+
+    log(message) {
+        console.log(arguments);
+    }
+
+    sendNotice() {
+        console.log('sendNotice', arguments);
+    }
+
+    emit(event, args) {
+        console.log(arguments);
+        if (!this.fns.hasOwnProperty(event)) {
+            return;
+        }
+        return this.fns[event].apply(this.fns[event], args);
+    }
+}
+
+var dummy = new CbDummy();
 dummy.settings = {};
 
 module.exports = dummy;
