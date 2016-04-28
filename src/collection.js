@@ -26,4 +26,4 @@ class Collection {
     }
 }
 
-module.exports = collection;
+module.exports = Collection;
