@@ -39,7 +39,6 @@ class CbDummy {
     }
 
     emit(event, args) {
-        console.log(arguments);
         if (!this.fns.hasOwnProperty(event)) {
             return;
         }
