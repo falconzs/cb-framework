@@ -12,7 +12,7 @@ class EventProxy {
     initialise(methods, object) {
         for (let index in methods) {
             var method = methods[index],
-                handler = this[method];
+                handler = object[method];
             if (typeof handler == 'function') {
                 this.api[method](this.proxy(method, object, handler));
             }
@@ -33,9 +33,8 @@ class EventProxy {
         return function () {
             var proxied = this[method].apply(this, arguments);
             if (typeof this.intercepts[method] == 'function') {
-                handlerFn = this.intercepts[method].apply(scope, arguments);
+                handlerFn = this.intercepts[method].apply(scope, [handlerFn].concat(proxied));
             }
-            
             return handlerFn.apply(scope, proxied);
         }.bind(this)
     }
