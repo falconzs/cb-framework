@@ -10,8 +10,9 @@ class EventProxy {
     }
 
     initialise(methods, object) {
-        for (var method in methods) {
-            var handler = this[method];
+        for (let index in methods) {
+            var method = methods[index],
+                handler = this[method];
             if (typeof handler == 'function') {
                 this.api[method](this.proxy(method, object, handler));
             }
@@ -19,7 +20,7 @@ class EventProxy {
 
         // kick off
         var user = User.createFromUsername(this.api.room_slug, this.api.room_slug);
-        this.onStart(user);
+        object.onStart(user);
     }
 
     proxy(method, scope, handlerFn) {
