@@ -1,6 +1,7 @@
 "use strict";
 
-var Abstract = require('./abstract');
+var Abstract = require('./abstract'),
+    Consts   = require('./../consts');
 
 class Help extends Abstract {
     constructor() {
@@ -16,13 +17,11 @@ class Help extends Abstract {
     }
 
     discover(plugins) {
-        var index, plugin;
-        for (index in plugins) {
-            plugin = plugins[index];
-            if (!plugin.commands) {
+        for (let index in plugins) {
+            if (!plugins[index].commands) {
                 continue;
             }
-            this.iterateCommands(plugin.commands);
+            this.iterateCommands(plugins[index].commands);
         }
     }
 
@@ -61,7 +60,7 @@ class Help extends Abstract {
         var index,
             description,
             output = [],
-            color = this.library.colors.light_purple;
+            color = Consts.colors.light_purple;
 
         output.push("########### Available Commands ###########");
         for (index in this.descriptions) {
