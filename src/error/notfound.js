@@ -1,7 +1,9 @@
-var RuntimeError = require('./error/runtime');
+"use strict";
+
+var RuntimeError = require('./runtime');
 
 class NotFoundError extends RuntimeError
 {
 }
 
-modules.exports = NotFoundError;
+module.exports = NotFoundError;

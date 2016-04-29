@@ -1,5 +1,7 @@
+"use strict";
+
 class RuntimeError extends Error
 {
 }
 
-modules.exports = RuntimeError;
+module.exports = RuntimeError;

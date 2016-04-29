@@ -1,5 +1,7 @@
+"use strict";
+
 class InvalidArgumentError extends Error
 {
 }
 
-modules.exports = InvalidArgumentError;
+module.exports = InvalidArgumentError;

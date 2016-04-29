@@ -1,5 +1,7 @@
+"use strict";
+
 class InvalidCommandError extends Error
 {
 }
 
-modules.exports = InvalidCommandError;
+module.exports = InvalidCommandError;
