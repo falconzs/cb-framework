@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 "use strict";
 
 var HelpPlugin      = require('./plugins/help'),
@@ -42,7 +43,7 @@ class Bot {
     }
 
     register(plugin) {
-        if (typeof plugin['setDependencies'] == 'function') {
+        if (typeof plugin.setDependencies == 'function') {
             plugin.setDependencies(this.api);
         }
         this.commands.register(plugin);

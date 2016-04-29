@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 "use strict";
 
 var splitCommand = function(message) {
@@ -20,7 +21,7 @@ class Message {
     }
 
     static create(source, cbMessage) {
-        return new CbMessage('', '', cbMessage);
+        return new Message('', '', cbMessage);
     }
 
     static createFromTip(data, user) {
@@ -28,7 +29,7 @@ class Message {
     }
 
     isEmpty() {
-        return this.message == '';
+        return this.message === '';
     }
 
     isCommand() {

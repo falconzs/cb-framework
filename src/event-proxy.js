@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 "use strict";
 
 var User       = require('./user'),
@@ -26,7 +27,7 @@ class EventProxy {
     proxy(method, scope, handlerFn) {
         if (!this[method]) {
             return function() {
-                return handler.apply(scope, arguments);
+                return handlerFn.apply(scope, arguments);
             };
         }
 
@@ -36,7 +37,7 @@ class EventProxy {
                 handlerFn = this.intercepts[method].apply(scope, [handlerFn].concat(proxied));
             }
             return handlerFn.apply(scope, proxied);
-        }.bind(this)
+        }.bind(this);
     }
 
     redirectCommand(handlerFn) {
@@ -75,7 +76,7 @@ class EventProxy {
 
     onLeave(cbUser) {
         var user = User.create(cbUser);
-        [user];
+        return [user];
     }
 
     onDrawPanel() {

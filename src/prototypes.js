@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 'use strict';
 
 var hexColor    = /^#?(?:[0-9a-f]{3}){1,2}$/i,
@@ -29,8 +30,8 @@ String.prototype.toTitleCase = function() {
  * @returns {boolean}
  */
 String.prototype.isEqual = function(compare, caseSensitive) {
-    var compare = compare + '',
-        caseSensitive = caseSensitive || false;
+    compare = compare + '';
+    caseSensitive = caseSensitive || false;
     if (!!caseSensitive) {
         return this === compare;
     } else {
@@ -54,8 +55,8 @@ String.prototype.isHexColor = function() {
  * @returns {string}
  */
 String.prototype.filterHexColor = function(upper) {
-    var upper = upper || true,
-        code = this.trim();
+    upper = upper || true;
+    var code = this.trim();
     if (code.charAt(0) !== '#') {
         code = '#' + code;
     }
@@ -78,7 +79,8 @@ String.prototype.toRegex = function() {
  * @returns {string}
  */
 Number.prototype.toOrdinal = function() {
-    var s = ["th","st","nd","rd"],
+    var n,
+        s = ["th","st","nd","rd"],
         v = n % 100;
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };

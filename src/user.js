@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 "use strict";
 
 class User {
@@ -8,7 +9,7 @@ class User {
         this.isMod  = !!isMod;
         this.isFan  = !!isFan;
 
-        this.tippedRecently = !!tippedRecently
+        this.tippedRecently = !!tippedRecently;
 
         this.fansCanAlwaysTalk = true;
         this.isSilenced = false;
