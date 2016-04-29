@@ -1,3 +1,4 @@
+/* jshint node: true, esversion: 6 */
 "use strict";
 
 var Abstract = require('./abstract'),
@@ -13,7 +14,7 @@ class Help extends Abstract {
                 handler: this.displayHelp,
                 description: 'Display this listing of commands.'
             }
-        }
+        };
     }
 
     discover(plugins) {
@@ -37,16 +38,6 @@ class Help extends Abstract {
 
     appendHelpMessage(name, command) {
         var message = '/' + name;
-        if (command.alias) {
-            if (typeof command.alias == 'Array') {
-                command.alias = [command.alias];
-            }
-            var index, alias;
-            for (index in command.alias) {
-                alias = command.alias[index];
-                message +=  ' | /' + command.alias;
-            }
-        }
         if (command.description) {
             message += ': ' + command.description;
         }
