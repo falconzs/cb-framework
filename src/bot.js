@@ -18,27 +18,39 @@ var callPlugins = function(method, args) {
     };
 
 class Bot {
-    constructor(api) {
+    constructor(api, config) {
         this.api = api;
+        this.config = config || {autoProxy: true, enableHelp: true};
 
         this.commands = new CommandHandler(this.api);
         this.settings = new SettingsHandler();
 
         this.plugins = [];
-        this.help = new HelpPlugin();
-        this.register(this.help);
+        if (this.config.enableHelp) {
+            this.help = new HelpPlugin();
+            this.register(this.help);
+        }
+    }
+
+    enableProxy(eventProxy) {
+        if (!eventProxy) {
+            eventProxy = new EventProxy(this.api);
+        }
+
+        var methods = ['onEnter', 'onMessage', 'onTip', 'onLeave'];
+        eventProxy.initialise(methods, this);
+
+        if (typeof this.onCommand == 'function') {
+            eventProxy.redirectCommand(this.onCommand);
+        }
     }
 
     run() {
         this.help.discover(this.plugins);
         this.api.settings_choices = this.settings.fetch();
 
-        var methods = ['onEnter', 'onMessage', 'onTip', 'onLeave'],
-            eventPoxy = new EventProxy(this.api);
-        eventPoxy.initialise(methods, this);
-
-        if (typeof this.onCommand == 'function') {
-            eventPoxy.redirectCommand(this.onCommand);
+        if (this.config.autoProxy) {
+            this.enableProxy();
         }
     }
 
